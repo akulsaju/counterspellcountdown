@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown to Counterspell</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      font-family: 'Press Start 2P', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #FFFFFF;
+      color: #C3CBDE;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    .container {
+      text-align: center;
+      color: #FF4186;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #FF4186;
+    }
+
+    #countdown {
+      font-size: 2rem;
+      color: #41DDFF;
+      margin-top: 1rem;
+    }
+
+    .input-group {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #FF4186;
+    }
+
+    select, input[type="time"] {
+      font-family: 'Press Start 2P', sans-serif;
+      font-size: 1rem;
+      margin: 0 10px;
+      color: #41DDFF;
+      background-color: #FFFFFF;
+      border: 2px solid #FF4186;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Countdown to Counterspell</h1>
+    <div class="input-group">
+      <label for="date">Choose a date:</label>
+      <select id="date">
+        <option value="23">November 23</option>
+        <option value="24">November 24</option>
+      </select>
+      <label for="time">Choose a time:</label>
+      <input type="time" id="time" value="00:00">
+    </div>
+    <div id="countdown">Loading...</div>
+  </div>
+
+  <script>
+    const countdownElement = document.getElementById("countdown");
+    const dateSelect = document.getElementById("date");
+    const timeInput = document.getElementById("time");
+
+    // Function to calculate and display the countdown
+    function updateCountdown() {
+      const selectedDate = dateSelect.value;
+      const selectedTime = timeInput.value;
+
+      // Set the target date based on the user's selection
+      const targetDate = new Date(`2024-11-${selectedDate}T${selectedTime}:00`).getTime();
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
+
+      // Calculate days, hours, minutes, and seconds
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      // Display the countdown
+      if (timeLeft > 0) {
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      } else {
+        countdownElement.innerHTML = "Counterspell is here!";
+      }
+    }
+
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
+
+    // Update countdown when the date or time changes
+    dateSelect.addEventListener("change", updateCountdown);
+    timeInput.addEventListener("input", updateCountdown);
+
+    // Initialize countdown on page load
+    updateCountdown();
+  </script>
+</body>
+</html>
